@@ -1,2 +1,2 @@
 # react-coffee-app
-Web app for coffee shop find
+Web app for coffee shop find easy
