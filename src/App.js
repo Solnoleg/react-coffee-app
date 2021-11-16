@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Box, Button, Grid, Paper, Slider} from "@mui/material";
 import Switch from "@mui/material/Switch";
 import * as PropTypes from "prop-types";
-import {styled} from '@mui/material/styles';
 
 function Item(props) {
     return null;
@@ -59,35 +58,63 @@ class App extends Component {
             justifyContent: 'center'
         }
 
-        const Item = styled(Paper)(({theme}) => ({
-            ...theme.typography.body2,
-            padding: theme.spacing(1),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-        }));
+        // const Item = styled(Paper)(({theme}) => ({
+        //     ...theme.typography.body2,
+        //     padding: theme.spacing(1),
+        //     textAlign: 'center',
+        //     color: theme.palette.text.secondary,
+        // }));
 
         return (
             <div style={divStyle}>
-                <header>
-                    <img src="https://doodleipsum.com/700/outline?i=bf8210036f741844a10667e3d181517a"
+                <div>
+                    <img src="https://doodleipsum.com/500x500/outline?i=bf8210036f741844a10667e3d181517a"
+
                          alt="logo"/>
-                </header>
+                </div>
                 <div align="center">
-                    <Box sx={{width: '25%'}} display="flex">
+                    <Box sx={{
+                        height: 150,
+                        width: 400,
+                        mx: 0.5,
+                        display: 'inline-block'
+                    }}>
                         <Grid container rowSpacing={4} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                             <Grid item xs={6}>
-                                <Item>Открытые сейчас</Item>
+                                <Paper sx={{
+                                    height: 35,
+                                    padding: 1,
+                                    alignItems: 'center',
+                                    alignContent: 'center',
+                                    textAlign: 'center'
+                                }}>Открытые сейчас</Paper>
                             </Grid>
                             <Grid item xs={6}>
-                                <Paper>
+                                <Paper sx={{
+                                    height: 35,
+                                    padding: 1,
+                                    alignItems: 'center',
+                                    alignContent: 'center',
+                                    textAlign: 'center'
+                                }}>
                                     <Switch defaultChecked onChange={this.isOpenHandler}> </Switch>
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
-                                <Item>Расстояние до кафе</Item>
+                                <Paper sx={{
+                                    height: 35,
+                                    padding: 1,
+                                    alignItems: 'center',
+                                    alignContent: 'center'
+                                }}>Расстояние до кафе</Paper>
                             </Grid>
                             <Grid item xs={6}>
-                                <Paper><Slider
+                                <Paper sx={{
+                                    height: 35,
+                                    padding: 1,
+                                    alignItems: 'center',
+                                    alignContent: 'center'
+                                }}><Slider
                                     aria-label="Distance"
                                     onChange={this.distanceChangeHandler}
                                     defaultValue={1500}
