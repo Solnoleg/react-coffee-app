@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Box, Button, Card, CardContent, Grid, Paper, Slider} from "@mui/material";
+import {Box, Button, Grid, Paper, Slider} from "@mui/material";
 import Switch from "@mui/material/Switch";
 import CoffeeShop from "./components/CoffeeShop";
+import axios from "axios";
 
 class App extends Component {
     state = {
@@ -12,10 +13,13 @@ class App extends Component {
         region: {
             geoLat: 0,
             geoLong: 0
-        }
+        },
+        coffeeSops: [
+            {title: "Starbucks", distance: "1000m"},
+        ]
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const {region} = this.state;
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -31,12 +35,34 @@ class App extends Component {
         this.setState({
             isShowResults: !this.state.isShowResults
         })
-        console.log('Send request with params:')
-        console.log('Only open ' + this.state.isOpen)
-        console.log('Region is ' + this.state.region.geoLat + " " + this.state.region.geoLong)
-        console.log('Distance is ' + this.state.distance)
-        console.log('Count is ' + this.state.count)
-        console.log('Show results is ' + this.state.isShowResults)
+
+        try {
+            axios.post(
+                'https://coffee-service-find.herokuapp.com/find',
+                {
+                    "isOpen": false,
+                    "latitude": 55.8785249,
+                    "longitude": 37.5110339,
+                    "distance": 3000,
+                    "count": 1
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            ).then(response => {
+                console.log(response.data);
+            });
+        } catch (e) {
+            console.log(e)
+        }
+        // console.log('Send request with params:')
+        // console.log('Only open ' + this.state.isOpen)
+        // console.log('Region is ' + this.state.region.geoLat + " " + this.state.region.geoLong)
+        // console.log('Distance is ' + this.state.distance)
+        // console.log('Count is ' + this.state.count)
+        // console.log('Show results is ' + this.state.isShowResults)
     }
 
     isOpenHandler = () => {
@@ -63,6 +89,24 @@ class App extends Component {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center'
+        }
+
+        let coffeeShops = null
+
+        if (this.state.isShowResults) {
+            coffeeShops = this.state.coffeeSops.map((cs, index) => {
+                return (
+                    <div className="row" key={cs.id}>
+                        <div className="col-sm-4 mb-4" key={cs.id}>
+                            <CoffeeShop
+                                key={index}
+                                name={cs.title}
+                                distance={cs.distance}
+                            />
+                        </div>
+                    </div>
+                );
+            })
         }
 
         return (
@@ -151,18 +195,9 @@ class App extends Component {
                                 variant="contained"
                                 onClick={this.showCoordinates}>Найти</Button>
 
-                        {this.state.isShowResults && (<div style={{display: 'flex', marginTop: 25, width: 400}}>
-                            <Card sx={{width: 200}}>
-                                <CardContent>
-                                    <CoffeeShop name={"Starbucks"} distance={"1000m"}/>
-                                </CardContent>
-                            </Card>
-                            <Card sx={{width: 200}}>
-                                <CardContent>
-                                    <CoffeeShop name={"Surf Coffee"} distance={"250m"}/>
-                                </CardContent>
-                            </Card>
-                        </div>)}
+                        {coffeeShops}
+                        {/*{this.state.isShowResults && (<div style={{display: 'flex', marginTop: 25, width: 400}}>*/}
+                        {/*</div>)}*/}
                     </Box>
                 </div>
             </div>
