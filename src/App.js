@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
-import {Box, Button, Grid, Paper, Slider} from "@mui/material";
+import {Box, Button, Card, CardContent, Grid, Paper, Slider} from "@mui/material";
 import Switch from "@mui/material/Switch";
+import CoffeeShop from "./components/CoffeeShop";
 
 class App extends Component {
     state = {
         isOpen: true,
         distance: 1500,
         count: 5,
+        isShowResults: false,
         region: {
             geoLat: 0,
             geoLong: 0
@@ -26,11 +28,15 @@ class App extends Component {
     }
 
     showCoordinates = () => {
+        this.setState({
+            isShowResults: !this.state.isShowResults
+        })
         console.log('Send request with params:')
         console.log('Only open ' + this.state.isOpen)
         console.log('Region is ' + this.state.region.geoLat + " " + this.state.region.geoLong)
         console.log('Distance is ' + this.state.distance)
         console.log('Count is ' + this.state.count)
+        console.log('Show results is ' + this.state.isShowResults)
     }
 
     isOpenHandler = () => {
@@ -63,7 +69,7 @@ class App extends Component {
             <div style={divStyle}>
                 <div>
                     <img src="https://doodleipsum.com/500x500/outline?i=bf8210036f741844a10667e3d181517a"
-                         style={{width: 400, height: 400}}
+                         style={{maxWidth: 400, maxHeight: 400}}
                          alt="logo"/>
                 </div>
                 <div align="center" style={{marginTop: -50}}>
@@ -144,6 +150,19 @@ class App extends Component {
                         <Button style={{width: 100, marginTop: 20}}
                                 variant="contained"
                                 onClick={this.showCoordinates}>Найти</Button>
+
+                        {this.state.isShowResults && (<div style={{display: 'flex', marginTop: 25, width: 400}}>
+                            <Card sx={{width: 200}}>
+                                <CardContent>
+                                    <CoffeeShop name={"Starbucks"} distance={"1000m"}/>
+                                </CardContent>
+                            </Card>
+                            <Card sx={{width: 200}}>
+                                <CardContent>
+                                    <CoffeeShop name={"Surf Coffee"} distance={"250m"}/>
+                                </CardContent>
+                            </Card>
+                        </div>)}
                     </Box>
                 </div>
             </div>
