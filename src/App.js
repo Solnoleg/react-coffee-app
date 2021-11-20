@@ -31,7 +31,8 @@ class App extends Component {
     showShops = () => {
         try {
             axios.post(
-                'http://localhost:8080/find',
+                // 'http://localhost:8080/find',
+                'https://coffee-service-find.herokuapp.com/',
                 {
                     "open": this.state.isOpen,
                     "latitude": this.state.region.geoLat,
