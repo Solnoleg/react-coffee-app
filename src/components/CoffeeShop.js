@@ -11,7 +11,8 @@ export default props => (
                 padding: '10px'
             }}>
                 <h3>{props.name}</h3>
-                <p>Distance: <strong>{props.distance}</strong></p>
+                <p>Расстояние: <strong>~{props.distance}</strong></p>
+                <a target={'_blank'} rel={'noopener noreferrer'} href={props.route}>Маршрут</a>
             </div>
         </CardContent>
     </Card>

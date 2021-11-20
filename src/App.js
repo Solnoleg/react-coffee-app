@@ -9,14 +9,11 @@ class App extends Component {
         isOpen: true,
         distance: 1500,
         count: 5,
-        isShowResults: false,
         region: {
             geoLat: 0,
             geoLong: 0
         },
-        coffeeSops: [
-            {title: "Starbucks", distance: "1000m"},
-        ]
+        coffeeSops: []
     }
 
     async componentDidMount() {
@@ -31,20 +28,16 @@ class App extends Component {
         );
     }
 
-    showCoordinates = () => {
-        this.setState({
-            isShowResults: !this.state.isShowResults
-        })
-
+    showShops = () => {
         try {
             axios.post(
-                'https://coffee-service-find.herokuapp.com/find',
+                'http://localhost:8080/find',
                 {
-                    "isOpen": false,
-                    "latitude": 55.8785249,
-                    "longitude": 37.5110339,
-                    "distance": 3000,
-                    "count": 1
+                    "open": this.state.isOpen,
+                    "latitude": this.state.region.geoLat,
+                    "longitude": this.state.region.geoLong,
+                    "distance": this.state.distance,
+                    "count": this.state.count
                 },
                 {
                     headers: {
@@ -52,17 +45,13 @@ class App extends Component {
                     }
                 }
             ).then(response => {
-                console.log(response.data);
+                this.setState({
+                    coffeeSops: response.data
+                })
             });
         } catch (e) {
             console.log(e)
         }
-        // console.log('Send request with params:')
-        // console.log('Only open ' + this.state.isOpen)
-        // console.log('Region is ' + this.state.region.geoLat + " " + this.state.region.geoLong)
-        // console.log('Distance is ' + this.state.distance)
-        // console.log('Count is ' + this.state.count)
-        // console.log('Show results is ' + this.state.isShowResults)
     }
 
     isOpenHandler = () => {
@@ -91,23 +80,20 @@ class App extends Component {
             justifyContent: 'center'
         }
 
-        let coffeeShops = null
-
-        if (this.state.isShowResults) {
-            coffeeShops = this.state.coffeeSops.map((cs, index) => {
-                return (
-                    <div className="row" key={cs.id}>
-                        <div className="col-sm-4 mb-4" key={cs.id}>
-                            <CoffeeShop
-                                key={index}
-                                name={cs.title}
-                                distance={cs.distance}
-                            />
-                        </div>
+        let coffeeShops = this.state.coffeeSops.map((cs, index) => {
+            return (
+                <div className="row" key={cs.id}>
+                    <div className="col-sm-4 mb-4" key={cs.id}>
+                        <CoffeeShop
+                            key={index}
+                            name={cs.title}
+                            route={cs.route}
+                            distance={parseInt(cs.distance, 10) + 'm'}
+                        />
                     </div>
-                );
-            })
-        }
+                </div>
+            );
+        })
 
         return (
             <div style={divStyle}>
@@ -193,11 +179,9 @@ class App extends Component {
                         </Grid>
                         <Button style={{width: 100, marginTop: 20}}
                                 variant="contained"
-                                onClick={this.showCoordinates}>Найти</Button>
+                                onClick={this.showShops}>Найти</Button>
 
                         {coffeeShops}
-                        {/*{this.state.isShowResults && (<div style={{display: 'flex', marginTop: 25, width: 400}}>*/}
-                        {/*</div>)}*/}
                     </Box>
                 </div>
             </div>
