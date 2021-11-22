@@ -100,7 +100,7 @@ class App extends Component {
             <div style={divStyle}>
                 <div>
                     <img src="https://doodleipsum.com/500x500/outline?i=bf8210036f741844a10667e3d181517a"
-                         style={{maxWidth: 400, maxHeight: 400}}
+                         style={{maxWidth: 400, maxHeight: 400, margin: 3}}
                          alt="logo"/>
                 </div>
                 <div align="center" style={{marginTop: -50}}>
@@ -108,7 +108,8 @@ class App extends Component {
                         height: 250,
                         width: 400,
                         mx: 0.5,
-                        display: 'inline-block'
+                        display: 'inline-block',
+                        margin: 3
                     }}>
                         <Grid container rowSpacing={4} columnSpacing={{xs: 1, sm: 2, md: 3}}>
                             <Grid item xs={6}>
