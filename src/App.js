@@ -13,7 +13,8 @@ class App extends Component {
             geoLat: 0,
             geoLong: 0
         },
-        coffeeSops: []
+        coffeeSops: [],
+        isEmptyCoffeeShopsList: ""
     }
 
     async componentDidMount() {
@@ -49,6 +50,18 @@ class App extends Component {
                 this.setState({
                     coffeeSops: response.data
                 })
+                if (response.data.length === 0) {
+                    this.setState({
+                        isEmptyCoffeeShopsList:
+                            <div style={{marginTop: 25}}>
+                                <h3>Кафе поблизости не найдено</h3>
+                            </div>
+                    })
+                } else {
+                    this.setState({
+                        isEmptyCoffeeShopsList: ""
+                    })
+                }
             });
         } catch (e) {
             console.log(e)
@@ -182,7 +195,7 @@ class App extends Component {
                                 variant="contained"
                                 onClick={this.showShops}>Найти</Button>
 
-                        {coffeeShops}
+                        {coffeeShops}{this.state.isEmptyCoffeeShopsList}
                     </Box>
                 </div>
             </div>
